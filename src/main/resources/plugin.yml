@@ -1,0 +1,8 @@
+name: IToncek's Toolbox
+version: '${version}'
+main: me.itoncek.popliktroll.PoplikTroll
+api-version: 1.18
+prefix: IToncek's Toolbox
+authors: [ IToncek ]
+description: IToncek's Toolbox
+website: https://plugins.itoncek.cf
