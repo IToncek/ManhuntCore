@@ -14,6 +14,9 @@ import org.bukkit.plugin.java.JavaPlugin;
  * Main class
  */
 public final class PoplikTroll extends JavaPlugin {
+    /**
+     * Instance of player that is being speedrunner
+     */
     public static Player speedrunners;
     /**
      * Instructions for plugin startup
@@ -25,7 +28,7 @@ public final class PoplikTroll extends JavaPlugin {
 
     /**
      * Registers all listeners
-     * @param plugin
+     * @param plugin PoplikTroll plugin instance
      */
     public static void registerListeners(PoplikTroll plugin){
         Bukkit.getServer().getPluginManager().registerEvents(new Events(), plugin);

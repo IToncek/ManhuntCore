@@ -14,6 +14,9 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 
+/**
+ * All events are stored here
+ */
 public class Events implements Listener {
 
     /**
