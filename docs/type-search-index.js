@@ -1,0 +1,1 @@
+typeSearchIndex = [{"l":"All Classes and Interfaces","u":"allclasses-index.html"},{"p":"me.itoncek.popliktroll","l":"Events"},{"p":"me.itoncek.popliktroll","l":"PoplikTroll"}];updateSearchResults();
