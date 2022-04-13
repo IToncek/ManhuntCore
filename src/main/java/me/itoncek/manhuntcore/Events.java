@@ -4,7 +4,7 @@
  * This software was made by IToncek. You are allowed to use it as long as you give credit to IToncek and link original repo.
  ******************************************************************************/
 
-package me.itoncek.popliktroll;
+package me.itoncek.manhuntcore;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -32,21 +32,21 @@ public class Events implements Listener {
         Player p = event.getPlayer();
         Action a = event.getAction();
         Material i = p.getItemInUse().getType();
-        if(! PoplikTroll.speedrunners.equals(p)) {
+        if(! ManhuntCore.speedrunners.equals(p)) {
             if(a.isLeftClick()) {
                 if(i.equals(Material.COMPASS)) {
                     if(!p.getWorld().equals(Bukkit.getWorld("world_the_end"))) {
                         event.setCancelled(true);
-                        if(PoplikTroll.speedrunners.getWorld() == p.getWorld()) {
-                            p.setCompassTarget(PoplikTroll.speedrunners.getLocation());
-                            p.sendMessage(ChatColor.GREEN + "Tracking " + PoplikTroll.speedrunners.getName());
+                        if(ManhuntCore.speedrunners.getWorld() == p.getWorld()) {
+                            p.setCompassTarget(ManhuntCore.speedrunners.getLocation());
+                            p.sendMessage(ChatColor.GREEN + "Tracking " + ManhuntCore.speedrunners.getName());
                         } else {
                             if(p.getWorld().equals(Bukkit.getWorld("world"))) {
-                                p.setCompassTarget(PoplikTroll.portalLoc);
-                                p.sendMessage(ChatColor.YELLOW + "Tracking " + PoplikTroll.speedrunners.getName() + "'s portal");
+                                p.setCompassTarget(ManhuntCore.portalLoc);
+                                p.sendMessage(ChatColor.YELLOW + "Tracking " + ManhuntCore.speedrunners.getName() + "'s portal");
                             } else {
-                                p.setCompassTarget(PoplikTroll.portalLocnether);
-                                p.sendMessage(ChatColor.YELLOW + "Tracking " + PoplikTroll.speedrunners.getName() + "'s portal");
+                                p.setCompassTarget(ManhuntCore.portalLocnether);
+                                p.sendMessage(ChatColor.YELLOW + "Tracking " + ManhuntCore.speedrunners.getName() + "'s portal");
                             }
                         }
                     } else {
@@ -59,17 +59,17 @@ public class Events implements Listener {
 
     @EventHandler(ignoreCancelled = true)
     public void onPlayerPortal(PlayerPortalEvent event) {
-        if(event.getPlayer().equals(PoplikTroll.speedrunners)) {
+        if(event.getPlayer().equals(ManhuntCore.speedrunners)) {
             if(event.getCause().equals(PlayerTeleportEvent.TeleportCause.NETHER_PORTAL) || event.getCause().equals(PlayerTeleportEvent.TeleportCause.END_PORTAL)) {
                 if(event.getFrom().getWorld().equals(Bukkit.getWorld("world"))) {
-                    PoplikTroll.portalLoc = event.getFrom();
+                    ManhuntCore.portalLoc = event.getFrom();
                 } else {
-                    PoplikTroll.portalLoc = event.getTo();
+                    ManhuntCore.portalLoc = event.getTo();
                 }
                 if(event.getFrom().getWorld().equals(Bukkit.getWorld("world_nether"))) {
-                    PoplikTroll.portalLocnether = event.getFrom();
+                    ManhuntCore.portalLocnether = event.getFrom();
                 } else {
-                    PoplikTroll.portalLocnether = event.getTo();
+                    ManhuntCore.portalLocnether = event.getTo();
                 }
             }
         }

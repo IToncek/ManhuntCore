@@ -1,6 +1,6 @@
-name: IToncek's Toolbox
+name: ManhuntCore
 version: '${version}'
-main: me.itoncek.popliktroll.PoplikTroll
+main: me.itoncek.manhuntcore.ManhuntCore
 api-version: 1.18
 prefix: IToncek's Toolbox
 authors: [ IToncek ]
