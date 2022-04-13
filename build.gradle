@@ -17,12 +17,12 @@ allprojects {
 }
 
 artifactory {
-    contextUrl = "${artifactory_contextUrl}"   //The base Artifactory URL if not overridden by the publisher/resolver
+    contextUrl = System.getenv("ARTIFACTORY_CONTEXTURL")   //The base Artifactory URL if not overridden by the publisher/resolver
     publish {
         repository {
             repoKey = 'default-gradle-dev-local'
-            username = "${artifactory_user}"
-            password = "${artifactory_password}"
+            username = System.getenv("ARTIFACTORY_USER")
+            password = System.getenv("ARTIFACTORY_PASSWORD")
             maven = true
 
         }
@@ -30,8 +30,8 @@ artifactory {
     resolve {
         repository {
             repoKey = 'default-gradle-dev'
-            username = "${artifactory_user}"
-            password = "${artifactory_password}"
+            username = System.getenv("ARTIFACTORY_USER")
+            password = System.getenv("ARTIFACTORY_PASSWORD")
             maven = true
 
         }
