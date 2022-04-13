@@ -1,2 +1,1 @@
-# Poplik is OP
- 
+# Manhunt Core
