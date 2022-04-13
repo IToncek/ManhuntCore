@@ -57,6 +57,10 @@ public class Events implements Listener {
         }
     }
 
+    /**
+     * Portal location replacer
+     * @param event Portal Travel Event
+     */
     @EventHandler(ignoreCancelled = true)
     public void onPlayerPortal(PlayerPortalEvent event) {
         if(event.getPlayer().equals(ManhuntCore.speedrunners)) {
