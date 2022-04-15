@@ -1,1 +1,0 @@
-packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"me.itoncek.manhuntcore"},{"l":"me.itoncek.manhuntcore.commands"},{"l":"me.itoncek.manhuntcore.util"}];updateSearchResults();
