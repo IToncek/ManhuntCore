@@ -25,7 +25,7 @@ jobs:
           java-version: '17'
           cache: 'maven'
       - name: Generate settings.xml
-        uses: DamianReeves/write-file-action
+        uses: DamianReeves/write-file-action@v1.0
         with:
           path: .m2/settings.xml
           contents: |
