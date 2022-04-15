@@ -6,3 +6,6 @@ prefix: IToncek's Toolbox
 authors: [ IToncek ]
 description: IToncek's Toolbox
 website: https://plugins.itoncek.cf
+commands:
+  select:
+  start:

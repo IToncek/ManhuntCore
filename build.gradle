@@ -1,43 +1,6 @@
-buildscript {
-    repositories {
-        jcenter()
-
-    }
-    dependencies {
-        //Check for the latest version here: http://plugins.gradle.org/plugin/com.jfrog.artifactory
-        classpath "org.jfrog.buildinfo:build-info-extractor-gradle:4+"
-    }
-}
 plugins {
     id 'java'
 }
-
-allprojects {
-    apply plugin: "com.jfrog.artifactory"
-}
-
-artifactory {
-    contextUrl = System.getenv("ARTIFACTORY_CONTEXTURL")   //The base Artifactory URL if not overridden by the publisher/resolver
-    publish {
-        repository {
-            repoKey = 'default-gradle-dev-local'
-            username = System.getenv("ARTIFACTORY_USER")
-            password = System.getenv("ARTIFACTORY_PASSWORD")
-            maven = true
-
-        }
-    }
-    resolve {
-        repository {
-            repoKey = 'default-gradle-dev'
-            username = System.getenv("ARTIFACTORY_USER")
-            password = System.getenv("ARTIFACTORY_PASSWORD")
-            maven = true
-
-        }
-    }
-}
-
 group = 'me.itoncek'
 version = '1.0-SNAPSHOT'
 
@@ -70,14 +33,5 @@ java {
 tasks.withType(JavaCompile).configureEach {
     if (targetJavaVersion >= 10 || JavaVersion.current().isJava10Compatible()) {
         options.release = targetJavaVersion
-    }
-}
-
-processResources {
-    def props = [version: version]
-    inputs.properties props
-    filteringCharset 'UTF-8'
-    filesMatching('plugin.yml') {
-        expand props
     }
 }
