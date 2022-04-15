@@ -12,9 +12,9 @@ If you want to implement / modify any part of my code, here is the maven configu
 ```
 and here's the dependency:
 ```maven
- <dependency>
-            <groupId>me.itoncek</groupId>
-            <artifactId>manhuntcore</artifactId>
-            <version>1.0-SNAPSHOT</version>
- </dependency>
+    <dependency>
+        <groupId>me.itoncek</groupId>
+        <artifactId>manhuntcore</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </dependency>
  ```
