@@ -38,6 +38,12 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v3
+    - name: Setup Java
+      uses: actions/setup-java@v2
+      with:
+          distribution: 'adopt'
+          java-version: '17'
+          cache: 'maven'
 
     # Initializes the CodeQL tools for scanning.
     - name: Initialize CodeQL
@@ -78,7 +84,8 @@ jobs:
         write-mode: overwrite
     - name: Build with Maven
       run: mvn -B deploy --settings .m2/settings.xml --file pom.xml
-    - uses: actions/upload-artifact@v2
+    - name: Upload artifact
+      uses: actions/upload-artifact@v2
       with:
         name: artifact
         path: target/*.jar
