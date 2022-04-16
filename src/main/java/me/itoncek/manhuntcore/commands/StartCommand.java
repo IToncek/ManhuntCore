@@ -7,15 +7,19 @@
 package me.itoncek.manhuntcore.commands;
 
 import me.itoncek.manhuntcore.ManhuntCore;
-import me.itoncek.manhuntcore.StartSequence;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitTask;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Map;
 import java.util.logging.Logger;
 
 public class StartCommand implements CommandExecutor {
@@ -34,30 +38,23 @@ public class StartCommand implements CommandExecutor {
      */
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        Bukkit.getLogger().info(sender.getName() + "/" + ManhuntCore.speedrunners.getName());
-        if(sender.getName().equals(ManhuntCore.speedrunners.getName())){
-            Logger console = Bukkit.getLogger();
-            console.info("Okay, starting");
-            Location baseloc = ManhuntCore.speedrunners.getLocation();
-            ManhuntCore.speedrunners.setBedSpawnLocation(ManhuntCore.speedrunners.getLocation());
-            console.info("Speedrunner's respawn location was set");
-            int NUM_POINTS = Bukkit.getOnlinePlayers().size()-1;
-            int RADIUS = 4;
-            int i = NUM_POINTS;
-            console.info("Generating spawn circle");
-            for (Player p : Bukkit.getOnlinePlayers()) {
-                if(p != ManhuntCore.speedrunners) {
-                    final double angle = Math.toRadians(((double) i / NUM_POINTS) * 360d);
-                    Location locat = new Location(Bukkit.getWorld("world"), Math.cos(angle) * RADIUS + baseloc.getBlockX(), baseloc.getBlockY(), Math.sin(angle) * RADIUS + baseloc.getBlockZ());
-                    ManhuntCore.playerRespawn.put(p, locat);
-                    p.setBedSpawnLocation(locat);
-                    console.info("Done for " + p.getName());
-                    i++;
+        if(ManhuntCore.speedrunners != null) {
+            if(sender.getName().equals(ManhuntCore.speedrunners.getName())) {
+                Logger console = Bukkit.getLogger();
+                console.info("Okay, starting");
+                for (Player p:Bukkit.getOnlinePlayers()) {
+                    if(! p.getName().equals(ManhuntCore.speedrunners.getName())) {
+                        for(ItemStack stack : p.getInventory()) {
+                            if(stack != null) stack.setAmount(0);
+                        }
+                        p.getInventory().addItem(new ItemStack(Material.COMPASS, 1));
+                    }
                 }
+                ManhuntCore.ingame = true;
+                return true;
+            } else {
+                return false;
             }
-            console.info("Starting start sequence");
-            StartSequence.run();
-            return true;
         } else {
             return false;
         }

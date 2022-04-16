@@ -19,8 +19,10 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerPortalEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 
+import java.util.Locale;
 import java.util.Objects;
 
 /**
@@ -35,33 +37,31 @@ public class Events implements Listener {
      */
     @EventHandler(ignoreCancelled = true)
     public void onPlayerInteract(PlayerInteractEvent event) {
-        Player p = event.getPlayer();
-        if(! ManhuntCore.speedrunners.equals(p)) {
-            Action a = event.getAction();
-            if(a.isLeftClick()) {
-                Material i = Objects.requireNonNull(p.getItemInUse()).getType();
-                if(i.equals(Material.COMPASS)) {
-                    if(! p.getWorld().equals(Bukkit.getWorld("world_the_end"))) {
-                        event.setCancelled(true);
-                        if(ManhuntCore.speedrunners.getWorld() == p.getWorld()) {
-                            p.setCompassTarget(ManhuntCore.speedrunners.getLocation());
+        if(ManhuntCore.ingame) {
+            Player p = event.getPlayer();
+            if(! ManhuntCore.speedrunners.equals(p)) {
+                Action a = event.getAction();
+                if(a.equals(Action.RIGHT_CLICK_BLOCK) || a.equals(Action.RIGHT_CLICK_AIR) || a.equals(Action.LEFT_CLICK_AIR) || a.equals(Action.LEFT_CLICK_BLOCK)) {
+                    if(p.getItemInHand().getType().equals(Material.COMPASS)) {
+                        if(ManhuntCore.speedrunners.getWorld().getName().equals(p.getWorld().getName())) {
+                            p.setCompassTarget(ManhuntCore.speedrunners.getEyeLocation());
                             p.sendMessage(ChatColor.GREEN + "Tracking " + ManhuntCore.speedrunners.getName());
+                        } else if(p.getWorld().getName().equalsIgnoreCase("world") && (ManhuntCore.speedrunners.getWorld().getName().equals("world_nether") || ManhuntCore.speedrunners.getWorld().getName().equals("world_the_end"))) {
+                            p.setCompassTarget(ManhuntCore.portalLoc);
+                            p.sendMessage(ChatColor.YELLOW + "Tracking " + ManhuntCore.speedrunners.getName() + "'s portal");
+                        } else if(p.getWorld().getName().equalsIgnoreCase("world_the_end")) {
+                            p.sendMessage(ChatColor.DARK_RED + "Tracking is disabled in the end");
                         } else {
-                            if(p.getWorld().equals(Bukkit.getWorld("world"))) {
-                                p.setCompassTarget(ManhuntCore.portalLoc);
-                                p.sendMessage(ChatColor.YELLOW + "Tracking " + ManhuntCore.speedrunners.getName() + "'s portal");
-                            } else {
-                                p.setCompassTarget(ManhuntCore.portalLocnether);
-                                p.sendMessage(ChatColor.YELLOW + "Tracking " + ManhuntCore.speedrunners.getName() + "'s portal");
-                            }
+                            p.setCompassTarget(ManhuntCore.portalLocnether);
+                            p.sendMessage(ChatColor.YELLOW + "Tracking " + ManhuntCore.speedrunners.getName() + "'s portal");
                         }
-                    } else {
-                        p.sendMessage(ChatColor.DARK_RED + "You are not allowed to use tracking in the end!");
+                        event.setCancelled(true);
                     }
                 }
             }
         }
     }
+
 
     /**
      * Portal location replacer
@@ -70,17 +70,19 @@ public class Events implements Listener {
      */
     @EventHandler(ignoreCancelled = true)
     public void onPlayerPortal(PlayerPortalEvent event) {
-        if(event.getPlayer().equals(ManhuntCore.speedrunners)) {
-            if(event.getCause().equals(PlayerTeleportEvent.TeleportCause.NETHER_PORTAL) || event.getCause().equals(PlayerTeleportEvent.TeleportCause.END_PORTAL)) {
-                if(event.getFrom().getWorld().equals(Bukkit.getWorld("world"))) {
-                    ManhuntCore.portalLoc = event.getFrom();
-                } else {
-                    ManhuntCore.portalLoc = event.getTo();
-                }
-                if(event.getFrom().getWorld().equals(Bukkit.getWorld("world_nether"))) {
-                    ManhuntCore.portalLocnether = event.getFrom();
-                } else {
-                    ManhuntCore.portalLocnether = event.getTo();
+        if(ManhuntCore.ingame) {
+            if(event.getPlayer().equals(ManhuntCore.speedrunners)) {
+                if(event.getCause().equals(PlayerTeleportEvent.TeleportCause.NETHER_PORTAL) || event.getCause().equals(PlayerTeleportEvent.TeleportCause.END_PORTAL)) {
+                    if(event.getFrom().getWorld().equals(Bukkit.getWorld("world"))) {
+                        ManhuntCore.portalLoc = event.getFrom();
+                    } else {
+                        ManhuntCore.portalLoc = event.getTo();
+                    }
+                    if(event.getFrom().getWorld().equals(Bukkit.getWorld("world_nether"))) {
+                        ManhuntCore.portalLocnether = event.getFrom();
+                    } else {
+                        ManhuntCore.portalLocnether = event.getTo();
+                    }
                 }
             }
         }
@@ -88,15 +90,17 @@ public class Events implements Listener {
 
     @EventHandler(ignoreCancelled = true)
     public void onInventoryClick(InventoryClickEvent event) {
-        if(event.getView().title().equals(Component.text(ChatColor.GREEN + "Select player to be a hunter"))) {
-            if(event.getAction().equals(InventoryAction.PICKUP_ALL) || event.getAction().equals(InventoryAction.PICKUP_HALF) || event.getAction().equals(InventoryAction.PICKUP_ONE) || event.getAction().equals(InventoryAction.PICKUP_SOME)) {
-                SkullMeta playerheadmeta = (SkullMeta) Objects.requireNonNull(event.getCurrentItem()).getItemMeta();
-                if(Objects.requireNonNull(playerheadmeta.getOwningPlayer()).isOnline()) {
-                    ManhuntCore.speedrunners = playerheadmeta.getOwningPlayer().getPlayer();
-                    assert ManhuntCore.speedrunners != null;
-                    Bukkit.broadcast(Component.text("Speedrunner will be: " + ManhuntCore.speedrunners.getName()));
+        if(! ManhuntCore.ingame) {
+            if(event.getView().title().equals(Component.text(ChatColor.GREEN + "Select player to be a hunter"))) {
+                if(event.getAction().equals(InventoryAction.PICKUP_ALL) || event.getAction().equals(InventoryAction.PICKUP_HALF) || event.getAction().equals(InventoryAction.PICKUP_ONE) || event.getAction().equals(InventoryAction.PICKUP_SOME)) {
+                    SkullMeta playerheadmeta = (SkullMeta) Objects.requireNonNull(event.getCurrentItem()).getItemMeta();
+                    if(Objects.requireNonNull(playerheadmeta.getOwningPlayer()).isOnline()) {
+                        ManhuntCore.speedrunners = playerheadmeta.getOwningPlayer().getPlayer();
+                        assert ManhuntCore.speedrunners != null;
+                        Bukkit.broadcast(Component.text("Speedrunner will be: " + ManhuntCore.speedrunners.getName()));
+                    }
+                    event.setCancelled(true);
                 }
-                event.setCancelled(true);
             }
         }
     }

@@ -6,6 +6,7 @@
 
 package me.itoncek.manhuntcore.commands;
 
+import me.itoncek.manhuntcore.ManhuntCore;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -38,11 +39,15 @@ public class SelectCommand implements CommandExecutor {
      */
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        if(sender.isOp()) {
-            if(sender instanceof Player){
-                ((Player) sender).openInventory(generateInventory());
+        if(! ManhuntCore.ingame) {
+            if(sender.isOp()) {
+                if(sender instanceof Player) {
+                    ((Player) sender).openInventory(generateInventory());
+                }
+                return true;
+            } else {
+                return false;
             }
-            return true;
         } else {
             return false;
         }

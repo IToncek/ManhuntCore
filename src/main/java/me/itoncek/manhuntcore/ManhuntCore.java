@@ -25,10 +25,7 @@ public final class ManhuntCore extends JavaPlugin {
      * Instance of player that is being speedrunner
      */
     public static Player speedrunners;
-    /**
-     * Hashmap with spawn locations for all players
-     */
-    public static HashMap<Player, Location> playerRespawn = new HashMap<>();
+    public static boolean ingame;
     /**
      * Position of speedrunners portal
      */
@@ -47,6 +44,7 @@ public final class ManhuntCore extends JavaPlugin {
     @Override
     public void onEnable() {
         plugin = this;
+        ingame = false;
         printLogo(Bukkit.getLogger());
         registerListeners(this);
     }
