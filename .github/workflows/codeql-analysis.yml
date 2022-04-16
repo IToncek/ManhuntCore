@@ -17,8 +17,7 @@ on:
   pull_request:
     # The branches below must be a subset of the branches above
     branches: [ main ]
-  schedule:
-    - cron: '30 22 * * 1'
+  workflow_dispatch:
 
 jobs:
   analyze:
@@ -52,8 +51,8 @@ jobs:
 
     # Autobuild attempts to build any compiled languages  (C/C++, C#, or Java).
     # If this step fails, then you should remove it and run the build manually (see below)
-    - name: Autobuild
-      uses: github/codeql-action/autobuild@v2
+    #- name: Autobuild
+    #  uses: github/codeql-action/autobuild@v2
 
     # ℹ️ Command-line programs to run using the OS shell.
     # 📚 https://git.io/JvXDl
@@ -62,9 +61,37 @@ jobs:
     #    and modify them (or add more) to build your code if your project
     #    uses a compiled language
 
-    #- run: |
-    #   make bootstrap
-    #   make release
+    - name: Generate settings.xml
+      uses: DamianReeves/write-file-action@v1.0
+      with:
+        path: .m2/settings.xml
+        contents: |
+            <settings xmlns="http://maven.apache.org/SETTINGS/1.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
+              <servers>
+                <server>
+                <id>github</id>
+                <username>${{ secrets.USER }}</username>
+                <password>${{ secrets.TOKEN }}</password>
+                </server>
+              </servers>
+            </settings>
+        write-mode: overwrite
+    - name: Build with Maven
+      run: mvn -B deploy --settings .m2/settings.xml --file pom.xml
+    - uses: actions/upload-artifact@v2
+      with:
+        name: artifact
+        path: target/*.jar
+    - name: Create release
+      id: create_release
+      run: |
+        set -xe
+        RELDATE="$(date +'%Y-%m-%d %H:%M')"
+        NAME="Auto-Build $RELDATE"
+        TAGNAME="autobuild-$(date +'%Y-%m-%d-%H-%M')"
+        hub release create $(for a in target/ManhuntCore-*.jar; do echo -a $a; done) -m "$NAME" -t "main" "$TAGNAME"
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v2
