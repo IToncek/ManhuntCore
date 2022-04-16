@@ -1,9 +1,3 @@
-/*******************************************************************************
- * Copyright © 2022 IToncek
- *
- * This software was made by IToncek. You are allowed to use it as long as you give credit to IToncek and link original repo.
- ******************************************************************************/
-
 package me.itoncek.manhuntcore;
 
 import me.itoncek.manhuntcore.commands.SelectCommand;
@@ -13,9 +7,15 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.HashMap;
 import java.util.Objects;
 import java.util.logging.Logger;
+
+/*
+ * Copyright (c) 2022.
+ * All rights reserved to IToncek. If you want to use this code or at least a part of it in
+ * your own work / video, please contact IToncek on Discord (IToncek#0201) or
+ * via email (toncek2019@gmail.com)
+ */
 
 /**
  * Main class
