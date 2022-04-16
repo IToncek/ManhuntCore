@@ -89,16 +89,5 @@ jobs:
       with:
         name: artifact
         path: target/*.jar
-    - name: Create release
-      id: create_release
-      run: |
-        set -xe
-        RELDATE="$(date +'%Y-%m-%d %H:%M')"
-        NAME="Auto-Build $RELDATE"
-        TAGNAME="autobuild-$(date +'%Y-%m-%d-%H-%M')"
-        hub release create $(for a in target/ManhuntCore-*.jar; do echo -a $a; done) -m "$NAME" -t "main" "$TAGNAME"
-      env:
-        GITHUB_TOKEN: ${{ github.token }}
-
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v2
