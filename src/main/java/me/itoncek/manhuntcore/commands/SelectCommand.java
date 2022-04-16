@@ -1,9 +1,3 @@
-/*******************************************************************************
- * Copyright © 2022 IToncek
- *
- * This software was made by IToncek. You are allowed to use it as long as you give credit to IToncek and link original repo.
- ******************************************************************************/
-
 package me.itoncek.manhuntcore.commands;
 
 import me.itoncek.manhuntcore.ManhuntCore;
@@ -19,6 +13,13 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.jetbrains.annotations.NotNull;
+
+/*
+ * Copyright (c) 2022.
+ * All rights reserved to IToncek. If you want to use this code or at least a part of it in
+ * your own work / video, please contact IToncek on Discord (IToncek#0201) or
+ * via email (toncek2019@gmail.com)
+ */
 
 /**
  * Command executor for /select command

@@ -1,26 +1,23 @@
-/*******************************************************************************
- * Copyright © 2022 IToncek
- *
- * This software was made by IToncek. You are allowed to use it as long as you give credit to IToncek and link original repo.
- ******************************************************************************/
-
 package me.itoncek.manhuntcore.commands;
 
 import me.itoncek.manhuntcore.ManhuntCore;
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scheduler.BukkitTask;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Map;
 import java.util.logging.Logger;
+
+/*
+ * Copyright (c) 2022.
+ * All rights reserved to IToncek. If you want to use this code or at least a part of it in
+ * your own work / video, please contact IToncek on Discord (IToncek#0201) or
+ * via email (toncek2019@gmail.com)
+ */
 
 public class StartCommand implements CommandExecutor {
     /**

@@ -1,9 +1,3 @@
-/*******************************************************************************
- * Copyright © 2022 IToncek
- *
- * This software was made by IToncek. You are allowed to use it as long as you give credit to IToncek and link original repo.
- ******************************************************************************/
-
 package me.itoncek.manhuntcore;
 
 import net.kyori.adventure.text.Component;
@@ -19,11 +13,16 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerPortalEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 
-import java.util.Locale;
 import java.util.Objects;
+
+/*
+ * Copyright (c) 2022.
+ * All rights reserved to IToncek. If you want to use this code or at least a part of it in
+ * your own work / video, please contact IToncek on Discord (IToncek#0201) or
+ * via email (toncek2019@gmail.com)
+ */
 
 /**
  * All events are stored here
